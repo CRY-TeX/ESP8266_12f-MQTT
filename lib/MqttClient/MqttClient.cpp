@@ -11,7 +11,6 @@ MqttClient::MqttClient(const std::string &wifi_ssid, const std::string &wifi_pas
     this->_mqtt_connect_id;
 
     this->_connect_to_wifi(this->_wifi_ssid, this->_wifi_password);
-    // this->_connect_wifi_client();
     this->_connect_to_mqtt_broker(this->_wifi_client, this->_mqtt_broker_address, this->_mqtt_port, this->_mqtt_connect_id);
 }
 
@@ -21,7 +20,7 @@ bool MqttClient::_connect_to_wifi(const std::string &ssid, const std::string &pa
     while (WiFi.status() != WL_CONNECTED)
     {
         delay(500);
-        LOG_SERIAL("Connecting...");
+        LOG_SERIAL("Connecting to WIFI...");
     }
 
     LOG_SERIAL("Succesfully connected to wifi");
@@ -41,6 +40,8 @@ bool MqttClient::_reconnect_to_wifi(const std::string &ssid, const std::string &
 void MqttClient::publish(const std::string &topic, const std::string &message)
 {
     this->_reconnect_to_wifi(this->_wifi_ssid, this->_wifi_password);
+
+    // FIXME: if mqtt broker shuts down publish will continue with no connection - broker will not receive data on new startup
     if (this->_pub_sub_client.connected())
         this->_connect_to_mqtt_broker(this->_wifi_client, this->_mqtt_broker_address, this->_mqtt_port, this->_mqtt_connect_id);
 
