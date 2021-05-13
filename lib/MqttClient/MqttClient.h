@@ -19,13 +19,13 @@ private:
     int _mqtt_port;
     std::string _default_topic;
     std::string _mqtt_connect_id;
+    unsigned int _wifi_retries;
 
     WiFiClient _wifi_client;
     PubSubClient _pub_sub_client;
 
     // FUNCTION DEFS
-    bool _connect_to_wifi(const std::string &ssid, const std::string &password);
-    bool _reconnect_to_wifi(const std::string &ssid, const std::string &password);
+    bool _connect_to_wifi(const std::string &ssid, const std::string &password, unsigned int retries = 15);
 
     bool _connect_to_mqtt_broker(const WiFiClient &wifi_client, const std::string &mqtt_broker_address, int mqtt_port, const std::string &mqtt_connect_id);
 
@@ -34,4 +34,8 @@ public:
 
     void publish(const std::string &message);
     void publish(const std::string &topic, const std::string &message);
+
+    void connect();
+
+    bool is_connected();
 };

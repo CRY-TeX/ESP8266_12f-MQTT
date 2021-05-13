@@ -29,4 +29,8 @@ public:
     const sensor_t *get_hum_sensor_descr() const;
 
     std::string get_data();
+
+    bool is_temp_data_valid();
+    bool is_hum_data_valid();
+    bool is_all_data_valid();
 };

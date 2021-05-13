@@ -45,3 +45,18 @@ std::string DHT22Monitor::get_data()
 
     return ss_data.str();
 }
+
+bool DHT22Monitor::is_temp_data_valid()
+{
+    return !isnan(this->_temp_event.temperature);
+}
+
+bool DHT22Monitor::is_hum_data_valid()
+{
+    return !isnan(this->_temp_event.relative_humidity);
+}
+
+bool DHT22Monitor::is_all_data_valid()
+{
+    return this->is_temp_data_valid() && this->is_hum_data_valid();
+}
